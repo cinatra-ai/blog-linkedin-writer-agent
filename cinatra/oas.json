@@ -1,0 +1,206 @@
+{
+  "agentspec_version": "26.1.0",
+  "component_type": "Flow",
+  "id": "blog-linkedin-writer-agent-flow",
+  "name": "Blog LinkedIn Writer Agent",
+  "description": "Stateless LLM-only leaf agent that writes a short promotional LinkedIn post for a published company blog post. Takes companyUrl, postTitle, postExcerpt, blogPostContent, blogPostUrl, destinationType, destinationName and returns { post, notes }. No HITL, no tool calls, no web_search — pure LLM generation for the asset-blog LinkedIn post drafting workflow.",
+  "metadata": {
+    "cinatra": {
+      "type": "flow",
+      "packageName": "@cinatra-ai/blog-linkedin-writer-agent",
+      "packageVersion": "0.1.0",
+      "hitlScreens": [],
+      "llm": {
+        "preferredProvider": "openai",
+        "preferredModel": "gpt-5.5"
+      }
+    }
+  },
+  "inputs": [
+    { "title": "postTitle", "type": "string" },
+    { "title": "blogPostUrl", "type": "string" },
+    { "title": "companyUrl", "type": "string", "default": "" },
+    { "title": "postExcerpt", "type": "string", "default": "" },
+    { "title": "blogPostContent", "type": "string", "default": "" },
+    { "title": "destinationType", "type": "string", "default": "organization" },
+    { "title": "destinationName", "type": "string", "default": "" },
+    { "title": "cinatra_run_id", "type": "string", "default": "" }
+  ],
+  "outputs": [
+    { "title": "post", "type": "string" },
+    { "title": "notes", "type": "string" }
+  ],
+  "start_node": { "$component_ref": "start" },
+  "nodes": [
+    { "$component_ref": "start" },
+    { "$component_ref": "write" },
+    { "$component_ref": "end" }
+  ],
+  "control_flow_connections": [
+    {
+      "component_type": "ControlFlowEdge",
+      "name": "start_to_write",
+      "from_node": { "$component_ref": "start" },
+      "to_node": { "$component_ref": "write" }
+    },
+    {
+      "component_type": "ControlFlowEdge",
+      "name": "write_to_end",
+      "from_node": { "$component_ref": "write" },
+      "to_node": { "$component_ref": "end" }
+    }
+  ],
+  "data_flow_connections": [
+    {
+      "component_type": "DataFlowEdge",
+      "name": "start_postTitle_to_write_postTitle",
+      "source_node": { "$component_ref": "start" },
+      "source_output": "postTitle",
+      "destination_node": { "$component_ref": "write" },
+      "destination_input": "postTitle"
+    },
+    {
+      "component_type": "DataFlowEdge",
+      "name": "start_blogPostUrl_to_write_blogPostUrl",
+      "source_node": { "$component_ref": "start" },
+      "source_output": "blogPostUrl",
+      "destination_node": { "$component_ref": "write" },
+      "destination_input": "blogPostUrl"
+    },
+    {
+      "component_type": "DataFlowEdge",
+      "name": "start_companyUrl_to_write_companyUrl",
+      "source_node": { "$component_ref": "start" },
+      "source_output": "companyUrl",
+      "destination_node": { "$component_ref": "write" },
+      "destination_input": "companyUrl"
+    },
+    {
+      "component_type": "DataFlowEdge",
+      "name": "start_postExcerpt_to_write_postExcerpt",
+      "source_node": { "$component_ref": "start" },
+      "source_output": "postExcerpt",
+      "destination_node": { "$component_ref": "write" },
+      "destination_input": "postExcerpt"
+    },
+    {
+      "component_type": "DataFlowEdge",
+      "name": "start_blogPostContent_to_write_blogPostContent",
+      "source_node": { "$component_ref": "start" },
+      "source_output": "blogPostContent",
+      "destination_node": { "$component_ref": "write" },
+      "destination_input": "blogPostContent"
+    },
+    {
+      "component_type": "DataFlowEdge",
+      "name": "start_destinationType_to_write_destinationType",
+      "source_node": { "$component_ref": "start" },
+      "source_output": "destinationType",
+      "destination_node": { "$component_ref": "write" },
+      "destination_input": "destinationType"
+    },
+    {
+      "component_type": "DataFlowEdge",
+      "name": "start_destinationName_to_write_destinationName",
+      "source_node": { "$component_ref": "start" },
+      "source_output": "destinationName",
+      "destination_node": { "$component_ref": "write" },
+      "destination_input": "destinationName"
+    },
+    {
+      "component_type": "DataFlowEdge",
+      "name": "write_post_to_end_post",
+      "source_node": { "$component_ref": "write" },
+      "source_output": "post",
+      "destination_node": { "$component_ref": "end" },
+      "destination_input": "post"
+    },
+    {
+      "component_type": "DataFlowEdge",
+      "name": "write_notes_to_end_notes",
+      "source_node": { "$component_ref": "write" },
+      "source_output": "notes",
+      "destination_node": { "$component_ref": "end" },
+      "destination_input": "notes"
+    },
+    {
+      "component_type": "DataFlowEdge",
+      "name": "start_cinatra_run_id_to_write_agent_run_id",
+      "source_node": { "$component_ref": "start" },
+      "source_output": "cinatra_run_id",
+      "destination_node": { "$component_ref": "write" },
+      "destination_input": "agent_run_id"
+    }
+  ],
+  "$referenced_components": {
+    "start": {
+      "component_type": "StartNode",
+      "id": "start",
+      "name": "Inputs",
+      "metadata": {
+        "cinatra": {
+          "required": ["postTitle", "blogPostUrl"],
+          "hidden": ["companyUrl", "postExcerpt", "blogPostContent", "destinationType", "destinationName", "cinatra_run_id"]
+        }
+      },
+      "inputs": [
+        { "title": "postTitle", "type": "string" },
+        { "title": "blogPostUrl", "type": "string" },
+        { "title": "companyUrl", "type": "string", "default": "" },
+        { "title": "postExcerpt", "type": "string", "default": "" },
+        { "title": "blogPostContent", "type": "string", "default": "" },
+        { "title": "destinationType", "type": "string", "default": "organization" },
+        { "title": "destinationName", "type": "string", "default": "" },
+        { "title": "cinatra_run_id", "type": "string", "default": "" }
+      ]
+    },
+    "write": {
+      "component_type": "ApiNode",
+      "id": "write",
+      "name": "Write LinkedIn post via /api/llm-bridge",
+      "url": "{{CINATRA_BASE_URL}}/api/llm-bridge",
+      "http_method": "POST",
+      "data": {
+        "agent_id": "blog-linkedin-writer-agent",
+        "system": "You are a stateless blog LinkedIn writer agent. Follow the SKILL.md step-by-step. Do NOT call any MCP tool. Return a single JSON object with {post, notes} — nothing else, no Markdown wrapping.",
+        "user": "Write a promotional LinkedIn post from the following inputs.\nInputs:\n- postTitle: {{ postTitle }}\n- blogPostUrl: {{ blogPostUrl }}\n- companyUrl: {{ companyUrl }}\n- postExcerpt: {{ postExcerpt }}\n- blogPostContent: {{ blogPostContent }}\n- destinationType: {{ destinationType }}\n- destinationName: {{ destinationName }}",
+        "agent_run_id": "{{ agent_run_id }}",
+        "cinatra_llm": {
+          "preferredProvider": "openai",
+          "preferredModel": "gpt-5.5"
+        }
+      },
+      "inputs": [
+        { "title": "postTitle", "type": "string" },
+        { "title": "blogPostUrl", "type": "string" },
+        { "title": "companyUrl", "type": "string" },
+        { "title": "postExcerpt", "type": "string" },
+        { "title": "blogPostContent", "type": "string" },
+        { "title": "destinationType", "type": "string" },
+        { "title": "destinationName", "type": "string" },
+        { "title": "agent_run_id", "type": "string" }
+      ],
+      "outputs": [
+        { "title": "post", "type": "string" },
+        { "title": "notes", "type": "string" }
+      ],
+      "metadata": {
+        "cinatra": {
+          "riskClass": "read_only",
+          "requiresApproval": false,
+          "packageName": "@cinatra-ai/blog-linkedin-writer-agent",
+          "description": "Single ApiNode → /api/llm-bridge. The bridge auto-discovers SKILL.md from this agent's own skills/blog-linkedin-writer-agent/SKILL.md via agent_id. metadata.cinatra.toolboxes INTENTIONALLY OMITTED — pure LLM-only generation leaf, no web_search, no MCP. No skill-id declarations are used."
+        }
+      }
+    },
+    "end": {
+      "component_type": "EndNode",
+      "id": "end",
+      "name": "End",
+      "outputs": [
+        { "title": "post", "type": "string", "default": "" },
+        { "title": "notes", "type": "string", "default": "" }
+      ]
+    }
+  }
+}
