@@ -1,6 +1,6 @@
 {
   "name": "@cinatra-ai/blog-linkedin-writer-agent",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "Apache-2.0",
   "description": "Stateless LLM-only leaf agent that writes a short promotional LinkedIn post for a published company blog post. Takes companyUrl, postTitle, postExcerpt, blogPostContent, blogPostUrl, destinationType, destinationName and returns { post, notes }. No HITL, no MCP tool calls, no web_search — pure LLM generation.",
   "type": "module",
