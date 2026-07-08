@@ -11,7 +11,17 @@
   "cinatra": {
     "apiVersion": "cinatra.ai/v1",
     "kind": "agent",
+    "displayName": "Blog LinkedIn Writer Agent",
     "dependencies": [],
-    "consumes": []
+    "consumes": [],
+    "packageType": "agent",
+    "manifestVersion": 1,
+    "sourceTemplateId": "blog-linkedin-writer-agent-flow",
+    "sourceVersionId": "a98a0f35-55a7-4020-b5f0-a1cebd253d47",
+    "sourceVersionNumber": 1,
+    "riskLevel": "low",
+    "hasApprovalGates": false,
+    "toolAccess": [],
+    "ownerOrgId": null
   }
 }
