@@ -12,7 +12,7 @@ Turn a published blog post into a short, native-feeling LinkedIn promotional pos
 
 **API contract.** Inputs: `postTitle: string` (required), `blogPostUrl: string` (required), `companyUrl: string` (optional), `postExcerpt: string` (optional), `blogPostContent: string` (optional), `destinationType: "member" | "organization"` (optional, default `"organization"`), `destinationName: string` (optional). Outputs: `post: string`, `notes: string`. On missing required fields the agent returns `post: ""` with a descriptive `notes` value rather than throwing.
 
-**Troubleshooting.** If `post` is empty, check that `postTitle` and `blogPostUrl` are non-empty strings. If the copy reads as organization voice when you expected first-person, confirm `destinationType` is `"member"`. This is a stateless, LLM-only leaf agent: no MCP tool calls, no web requests beyond the LLM bridge.
+**Troubleshooting.** If `post` is empty, check that `postTitle` and `blogPostUrl` are non-empty strings. If the copy reads as organization voice when you expected first-person, confirm `destinationType` is `"member"`. This is a stateless leaf agent with no stored state between runs.
 
 ## Works with
 
