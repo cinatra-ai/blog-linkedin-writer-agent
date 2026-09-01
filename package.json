@@ -1,6 +1,6 @@
 {
   "name": "@cinatra-ai/blog-linkedin-writer-agent",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "license": "Apache-2.0",
   "description": "Stateless leaf agent that writes a short promotional LinkedIn post for a published company blog post. Takes companyUrl, postTitle, postExcerpt, blogPostContent, blogPostUrl, destinationType, destinationName and returns { post, notes }. No HITL. Single bridge invocation; no toolbox is declared, so platform default-toolbox injection applies.",
   "type": "module",
@@ -11,7 +11,28 @@
     "apiVersion": "cinatra.ai/v1",
     "kind": "agent",
     "displayName": "Blog LinkedIn Writer Agent",
-    "dependencies": [],
+    "dependencies": [
+      {
+        "packageName": "@cinatra-ai/linkedin-artifacts",
+        "edgeType": "runtime",
+        "versionConstraint": {
+          "kind": "semver-range",
+          "range": "^0.1.0"
+        },
+        "requirement": "required",
+        "kind": "artifact"
+      },
+      {
+        "packageName": "@cinatra-ai/blog-post-artifact",
+        "edgeType": "runtime",
+        "versionConstraint": {
+          "kind": "semver-range",
+          "range": "^0.1.0"
+        },
+        "requirement": "required",
+        "kind": "artifact"
+      }
+    ],
     "consumes": [],
     "packageType": "agent",
     "manifestVersion": 1,
@@ -21,6 +42,15 @@
     "riskLevel": "low",
     "hasApprovalGates": false,
     "toolAccess": [],
-    "ownerOrgId": null
+    "ownerOrgId": null,
+    "produces": [
+      {
+        "extension": "@cinatra-ai/linkedin-artifacts",
+        "objectTypeId": "@cinatra-ai/linkedin:post-draft"
+      }
+    ]
+  },
+  "scripts": {
+    "test": "sh -c \"node --test\""
   }
 }
