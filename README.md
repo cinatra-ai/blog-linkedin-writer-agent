@@ -4,15 +4,15 @@ Turn a published blog post into a short, native-feeling LinkedIn promotional pos
 
 **Install.** Add this agent as a dependency in your Cinatra workspace via the marketplace, or declare it in your workflow's extension dependencies.
 
-**Usage.** Invoke the agent with `postTitle` and `blogPostUrl` (both required). Optionally supply `postExcerpt`, `blogPostContent`, `companyUrl`, `destinationType` (`"member"` or `"organization"`, default `"organization"`), and `destinationName`. The agent returns `{ post, notes }`: `post` is the finished LinkedIn copy; `notes` is a one- or two-sentence operator summary of the angle taken.
+**Usage.** Invoke the agent with `postTitle` and `blogPostUrl` (both required). Optionally supply `postExcerpt`, `blogPostContent`, `companyUrl`, `destinationType` (`"member"` or `"organization"`, default `"organization"`), and `destinationName`. The agent returns `{ post, title, notes }`: `post` is the LinkedIn copy; `notes` is a one- or two-sentence operator summary of the angle taken.
 
 **Configuration.** No secrets or credentials are required. The agent uses the Cinatra LLM bridge (`/api/llm-bridge`) and auto-discovers its system prompt via `agent_id`. Set `CINATRA_BASE_URL` in your environment to point to your Cinatra instance.
 
-**Development.** Run `node extension-kind-gate.mjs --package-root .` to validate the extension before publishing. No build step is needed for the prompt; `cinatra/oas.json` defines the flow graph.
+**Development.** Run `node --test` and `node extension-kind-gate.mjs --package-root .` before publishing. No build step is needed for the prompt; `cinatra/oas.json` defines the flow graph.
 
-**API contract.** Inputs: `postTitle: string` (required), `blogPostUrl: string` (required), `companyUrl: string` (optional), `postExcerpt: string` (optional), `blogPostContent: string` (optional), `destinationType: "member" | "organization"` (optional, default `"organization"`), `destinationName: string` (optional). Outputs: `post: string`, `notes: string`. On missing required fields the agent returns `post: ""` with a descriptive `notes` value rather than throwing.
+**API contract.** Inputs: `postTitle: string` (required), `blogPostUrl: string` (required), `companyUrl: string` (optional), `postExcerpt: string` (optional), `blogPostContent: string` (optional), `destinationType: "member" | "organization"` (optional, default `"organization"`), `destinationName: string` (optional). Outputs: `post: string`, `title: string`, `notes: string`. The post is filed as a LinkedIn post-draft artifact named from `title`, which is non-blank for a drafted post. Missing required fields return an empty `post` and a blank `title`, so no draft is filed, plus a descriptive `notes`.
 
-**Troubleshooting.** If `post` is empty, check that `postTitle` and `blogPostUrl` are non-empty strings. If the copy reads as organization voice when you expected first-person, confirm `destinationType` is `"member"`. This is a stateless leaf agent with no stored state between runs.
+**Troubleshooting.** If `post` is empty, check that `postTitle` and `blogPostUrl` are non-empty strings. If the copy reads as organization voice when you expected first-person, confirm `destinationType` is `"member"`.
 
 ## Works with
 

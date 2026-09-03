@@ -2,7 +2,7 @@
   "name": "@cinatra-ai/blog-linkedin-writer-agent",
   "version": "0.2.0",
   "license": "Apache-2.0",
-  "description": "Stateless leaf agent that writes a short promotional LinkedIn post for a published company blog post. Takes companyUrl, postTitle, postExcerpt, blogPostContent, blogPostUrl, destinationType, destinationName and returns { post, notes }. No HITL. Single bridge invocation; no toolbox is declared, so platform default-toolbox injection applies.",
+  "description": "Stateless leaf agent that writes a short promotional LinkedIn post for a published company blog post. Takes companyUrl, postTitle, postExcerpt, blogPostContent, blogPostUrl, destinationType, destinationName and returns { post, title, notes }. No HITL. Single bridge invocation; no toolbox is declared, so platform default-toolbox injection applies.",
   "type": "module",
   "files": [
     "cinatra"
